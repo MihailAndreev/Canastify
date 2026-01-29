@@ -1,4 +1,5 @@
 import { renderLayout } from './layout.js';
+import { renderRulesPage } from './pages/rulesPage.js';
 
 // Определяне на активната страница
 function getActivePage() {
@@ -23,6 +24,13 @@ function loadPageContent(activePage) {
   const contentDiv = document.getElementById('page-content');
   if (!contentDiv) return;
 
+  // Специално рендериране за Rules страницата
+  if (activePage === 'rules') {
+    renderRulesPage(contentDiv);
+    return;
+  }
+
+  // Статично съдържание за останалите страници
   const pageContent = {
     home: `
       <h2>Добре дошли в Canastify!</h2>
@@ -32,10 +40,6 @@ function loadPageContent(activePage) {
     game: `
       <h2>Игра</h2>
       <p>Тук ще бъде игралното поле (в разработка).</p>
-    `,
-    rules: `
-      <h2>Правила на играта</h2>
-      <p>Правилата на Българска канаста ще бъдат добавени скоро.</p>
     `,
     about: `
       <h2>За проекта</h2>
