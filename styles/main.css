@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #333;
   min-height: 100vh;
@@ -466,7 +466,47 @@ details h3:first-of-type {
 
 /* Sections spacing */
 .rules section {
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.rules section details {
+  margin-bottom: 1rem;
+}
+
+.rules section summary {
+  font-size: 1.2rem;
+  background-color: #fff;
+  border-left-color: #667eea;
+  padding: 0.9rem 1.25rem;
+}
+
+.rules section summary:hover {
+  background-color: #f8f9fa;
+}
+
+.rules section details[open] summary {
+  background-color: #e8eaf6;
+  border-left-color: #5f72e4;
+}
+
+.rules section .back-to-top {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: white;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: none;
+  background: linear-gradient(135deg, #5f72e4 0%, #6b42a0 100%);
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+}
+
+.rules section .back-to-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 .rules section:last-child {
@@ -478,8 +518,186 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Page Hero Section */
+.page-hero {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #5f72e4 0%, #6b42a0 100%);
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.page-hero h1 {
+  color: #ffffff;
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 400;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+/* Tabs Navigation */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #6c757d;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  bottom: -2px;
+}
+
+.tab-btn:hover {
+  color: #3498db;
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.tab-btn.is-active {
+  color: #3498db;
+  border-bottom-color: #3498db;
+  background-color: rgba(52, 152, 219, 0.08);
+}
+
+/* Tab Panels */
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tab-panel.is-active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TOC Box Styling */
+.toc-box {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.toc-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.toc-box li {
+  flex: 0 0 auto;
+}
+
+.toc-box a {
+  color: #495057;
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  display: inline-block;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.95rem;
+  background-color: white;
+  border: 1px solid #dee2e6;
+}
+
+.toc-box a:hover {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
 /* Responsive adjustments for rules */
 @media (max-width: 768px) {
+  .page-hero {
+    padding: 2rem 1.5rem;
+  }
+  
+  .page-hero h1 {
+    font-size: 2rem;
+    letter-spacing: -0.3px;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .tabs {
+    gap: 0.25rem;
+  }
+  
+  .tab-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .toc-box {
+    padding: 1rem;
+  }
+  
+  .toc-box a {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
   .rules h1 {
     font-size: 2rem;
   }
