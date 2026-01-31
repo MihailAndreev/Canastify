@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canastify - Игра</title>
+  <link rel="stylesheet" href="./game.css">
+</head>
+<body>
+  <div class="board">
+    <!-- Top Player Bar -->
+    <div class="top-bar">
+      <!-- Opponent 1 -->
+      <div class="player-tile">
+        <div class="player-info">
+          <div class="avatar">O1</div>
+          <div class="player-label">Opponent 1</div>
+        </div>
+        <div class="counters">
+          <div class="counter-card blue-counter">
+            <span class="counter-value">11</span>
+          </div>
+          <div class="counter-card red3-counter">
+            <span class="red3-symbol">3</span>
+            <div class="red3-badge">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partner -->
+      <div class="player-tile">
+        <div class="player-info">
+          <div class="avatar">PT</div>
+          <div class="player-label">Partner</div>
+        </div>
+        <div class="counters">
+          <div class="counter-card blue-counter">
+            <span class="counter-value">9</span>
+          </div>
+          <div class="counter-card red3-counter">
+            <span class="red3-symbol">3</span>
+            <div class="red3-badge">2</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opponent 2 -->
+      <div class="player-tile">
+        <div class="player-info">
+          <div class="avatar">O2</div>
+          <div class="player-label">Opponent 2</div>
+        </div>
+        <div class="counters">
+          <div class="counter-card blue-counter">
+            <span class="counter-value">10</span>
+          </div>
+          <div class="counter-card red3-counter">
+            <span class="red3-symbol">3</span>
+            <div class="red3-badge">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle Area: 3 Columns -->
+    <div class="middle-area">
+      <!-- Left Column: Our Team Melds -->
+      <div class="meld-panel">
+        <h2 class="panel-title">OUR TEAM MELDS</h2>
+        <div class="meld-grid">
+          <div class="meld-slot">
+            <div class="meld-cards">
+              <div class="mini-card">A</div>
+              <div class="mini-card">A</div>
+              <div class="mini-card">A</div>
+              <div class="mini-card">A</div>
+              <div class="mini-card">A</div>
+              <div class="mini-card red">♥</div>
+            </div>
+          </div>
+          <div class="meld-slot"><span class="slot-label">M2</span></div>
+          <div class="meld-slot"><span class="slot-label">M3</span></div>
+          <div class="meld-slot"><span class="slot-label">M4</span></div>
+          <div class="meld-slot"><span class="slot-label">M5</span></div>
+          <div class="meld-slot"><span class="slot-label">M6</span></div>
+          <div class="meld-slot"><span class="slot-label">M7</span></div>
+          <div class="meld-slot"><span class="slot-label">M8</span></div>
+          <div class="meld-slot"><span class="slot-label">M9</span></div>
+          <div class="meld-slot"><span class="slot-label">M10</span></div>
+          <div class="meld-slot"><span class="slot-label">M11</span></div>
+          <div class="meld-slot"><span class="slot-label">M12</span></div>
+          <div class="meld-slot"><span class="slot-label">M13</span></div>
+          <div class="meld-slot"><span class="slot-label">M14</span></div>
+          <div class="meld-slot"><span class="slot-label">M15</span></div>
+          <div class="meld-slot"><span class="slot-label">M16</span></div>
+          <div class="meld-slot"><span class="slot-label">M17</span></div>
+          <div class="meld-slot"><span class="slot-label">M18</span></div>
+          <div class="meld-slot"><span class="slot-label">M19</span></div>
+          <div class="meld-slot"><span class="slot-label">M20</span></div>
+        </div>
+      </div>
+
+      <!-- Center Column: Deck & Discard -->
+      <div class="center-column">
+        <div class="deck-discard-stack">
+          <div class="deck">
+            <div class="deck-card">
+              <div class="deck-pattern"></div>
+            </div>
+            <div class="deck-badge">49</div>
+            <div class="deck-label">DECK</div>
+          </div>
+          <div class="discard">
+            <div class="discard-card">
+              <span class="card-rank">Q</span>
+              <span class="card-suit red">♦</span>
+            </div>
+            <div class="discard-badge">12</div>
+            <div class="discard-label">DISCARD</div>
+          </div>
+        </div>
+        <div class="turn-pill">
+          <span class="play-icon">▶</span> Player_name's turn
+        </div>
+      </div>
+
+      <!-- Right Column: Opponent Melds -->
+      <div class="meld-panel">
+        <h2 class="panel-title">OPPONENT MELDS</h2>
+        <div class="meld-grid">
+          <div class="meld-slot"><span class="slot-label">M1</span></div>
+          <div class="meld-slot"><span class="slot-label">M2</span></div>
+          <div class="meld-slot"><span class="slot-label">M3</span></div>
+          <div class="meld-slot"><span class="slot-label">M4</span></div>
+          <div class="meld-slot"><span class="slot-label">M5</span></div>
+          <div class="meld-slot"><span class="slot-label">M6</span></div>
+          <div class="meld-slot"><span class="slot-label">M7</span></div>
+          <div class="meld-slot"><span class="slot-label">M8</span></div>
+          <div class="meld-slot"><span class="slot-label">M9</span></div>
+          <div class="meld-slot"><span class="slot-label">M10</span></div>
+          <div class="meld-slot"><span class="slot-label">M11</span></div>
+          <div class="meld-slot"><span class="slot-label">M12</span></div>
+          <div class="meld-slot"><span class="slot-label">M13</span></div>
+          <div class="meld-slot"><span class="slot-label">M14</span></div>
+          <div class="meld-slot"><span class="slot-label">M15</span></div>
+          <div class="meld-slot"><span class="slot-label">M16</span></div>
+          <div class="meld-slot"><span class="slot-label">M17</span></div>
+          <div class="meld-slot"><span class="slot-label">M18</span></div>
+          <div class="meld-slot"><span class="slot-label">M19</span></div>
+          <div class="meld-slot"><span class="slot-label">M20</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom: Player's Hand -->
+    <div class="hand">
+      <div class="hand-card"><span class="card-rank">A</span><span class="card-suit">♠</span></div>
+      <div class="hand-card"><span class="card-rank red">K</span><span class="card-suit red">♥</span></div>
+      <div class="hand-card"><span class="card-rank">Q</span><span class="card-suit">♠</span></div>
+      <div class="hand-card"><span class="card-rank red">J</span><span class="card-suit red">♦</span></div>
+      <div class="hand-card"><span class="card-rank">10</span><span class="card-suit">♠</span></div>
+      <div class="hand-card"><span class="card-rank red">9</span><span class="card-suit red">♥</span></div>
+      <div class="hand-card"><span class="card-rank">8</span><span class="card-suit">♣</span></div>
+      <div class="hand-card"><span class="card-rank red">7</span><span class="card-suit red">♦</span></div>
+      <div class="hand-card"><span class="card-rank red">6</span><span class="card-suit red">♥</span></div>
+      <div class="hand-card"><span class="card-rank red">5</span><span class="card-suit red">♥</span></div>
+      <div class="hand-card"><span class="card-rank">4</span><span class="card-suit">♠</span></div>
+      <div class="hand-card"><span class="card-rank red">3</span><span class="card-suit red">♦</span></div>
+      <div class="hand-card"><span class="card-rank">2</span><span class="card-suit">♣</span></div>
+      <div class="hand-card"><span class="card-rank red">9</span><span class="card-suit red">♥</span></div>
+      <div class="hand-card"><span class="card-rank">2</span><span class="card-suit">♠</span></div>
+    </div>
+  </div>
+</body>
+</html>

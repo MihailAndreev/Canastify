@@ -12,7 +12,7 @@ export function renderLayout(activePage) {
   // Навигационни линкове
   const navLinks = [
     { id: 'home', label: 'Начало', href: '/index.html' },
-    { id: 'game', label: 'Игра', href: '/pages/game.html' },
+    { id: 'game', label: 'Игра', href: '/pages/game/game.html' },
     { id: 'rules', label: 'Правила', href: '/pages/rules.html' },
     { id: 'about', label: 'За проекта', href: '/pages/about.html' }
   ];

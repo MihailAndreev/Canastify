@@ -8,7 +8,7 @@ function getActivePage() {
   // Map пътища към идентификатори
   if (path === '/' || path === '/index.html') {
     return 'home';
-  } else if (path === '/pages/game.html') {
+  } else if (path === '/pages/game/game.html') {
     return 'game';
   } else if (path === '/pages/rules.html') {
     return 'rules';
