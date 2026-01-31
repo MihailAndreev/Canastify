@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joker Card Test</title>
+  <script src="./assets/cards/elements.cardmeister.full.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    .test-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .test-card {
+      margin: 10px;
+    }
+    .test-card label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    playing-card {
+      width: 120px;
+      height: 180px;
+    }
+    h1 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>CardMeister - Joker Implementation Test</h1>
+  
+  <h2>Test 1: Joker Cards (should show as rank 0)</h2>
+  <div class="test-container">
+    <div class="test-card">
+      <label>Red Joker (JK-H)</label>
+      <playing-card cid="JK-H"></playing-card>
+    </div>
+    <div class="test-card">
+      <label>Black Joker (JK-C)</label>
+      <playing-card cid="JK-C"></playing-card>
+    </div>
+    <div class="test-card">
+      <label>Red Joker (JK-D)</label>
+      <playing-card cid="JK-D"></playing-card>
+    </div>
+    <div class="test-card">
+      <label>Black Joker (JK-S)</label>
+      <playing-card cid="JK-S"></playing-card>
+    </div>
+  </div>
+
+  <h2>Test 2: Standard Cards (for comparison)</h2>
+  <div class="test-container">
+    <div class="test-card">
+      <label>Ace of Hearts</label>
+      <playing-card cid="AH"></playing-card>
+    </div>
+    <div class="test-card">
+      <label>King of Spades</label>
+      <playing-card cid="KS"></playing-card>
+    </div>
+    <div class="test-card">
+      <label>7 of Diamonds</label>
+      <playing-card cid="7D"></playing-card>
+    </div>
+  </div>
+
+  <h2>Test 3: Using Full Names</h2>
+  <div class="test-container">
+    <div class="test-card">
+      <label>Joker (joker-hearts)</label>
+      <playing-card cid="joker-h"></playing-card>
+    </div>
+    <div class="test-card">
+      <label>Joker (jk-clubs)</label>
+      <playing-card cid="jk-c"></playing-card>
+    </div>
+  </div>
+
+  <script>
+    console.log("Test page loaded. Check the playing-card elements above.");
+  </script>
+</body>
+</html>

@@ -730,3 +730,49 @@ html {
   }
 }
 
+/* ============================================
+   JOKER CARD CORNER LABELS
+   ============================================ */
+
+playing-card[rank="joker"] {
+  position: relative;
+  display: inline-block;
+}
+
+playing-card[rank="joker"]::before,
+playing-card[rank="joker"]::after {
+  content: "JOKER";
+  position: absolute;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+playing-card[rank="joker"]::before {
+  top: 8px;
+  left: 8px;
+}
+
+playing-card[rank="joker"]::after {
+  bottom: 8px;
+  right: 8px;
+  transform: rotate(180deg);
+}
+
+playing-card[rank="joker"][suit="spades"]::before,
+playing-card[rank="joker"][suit="spades"]::after,
+playing-card[rank="joker"][suit="clubs"]::before,
+playing-card[rank="joker"][suit="clubs"]::after {
+  color: #111;
+}
+
+playing-card[rank="joker"][suit="hearts"]::before,
+playing-card[rank="joker"][suit="hearts"]::after,
+playing-card[rank="joker"][suit="diamonds"]::before,
+playing-card[rank="joker"][suit="diamonds"]::after {
+  color: #d32f2f;
+}
+

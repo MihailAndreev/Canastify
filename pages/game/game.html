@@ -9,6 +9,9 @@
 </head>
 <body>
   <div class="board">
+    <!-- Link Vector Cards CSS -->
+    <link rel="stylesheet" href="../../src/shared/ui/cardDisplay.css">
+    
     <!-- Top Player Bar -->
     <div class="top-bar">
       <!-- Opponent 1 -->
@@ -154,24 +157,66 @@
     </div>
 
     <!-- Bottom: Player's Hand -->
-    <div class="hand">
-      <!-- All cards as Cardmeister SVG (15 cards) -->
-      <playing-card cid="As"></playing-card>
-      <playing-card cid="Kh"></playing-card>
-      <playing-card cid="Qs"></playing-card>
-      <playing-card cid="Jd"></playing-card>
-      <playing-card cid="Ts"></playing-card>
-      <playing-card cid="9h"></playing-card>
-      <playing-card cid="8c"></playing-card>
-      <playing-card cid="7d"></playing-card>
-      <playing-card cid="6h"></playing-card>
-      <playing-card cid="5h"></playing-card>
-      <playing-card cid="4s"></playing-card>
-      <playing-card cid="3d"></playing-card>
-      <playing-card cid="2c"></playing-card>
-      <playing-card cid="Ac"></playing-card>
-      <playing-card cid="Kd"></playing-card>
+    <div class="hand" id="player-hand">
+      <!-- Vector Cards will be loaded here -->
     </div>
   </div>
+
+  <script type="module">
+    import { getDeck, createCard, JOKER, SUITS } from '../../src/domain/cardMapping.js';
+    import { createHandDisplay } from '../../src/shared/ui/cardDisplay.js';
+
+    // Create a test hand with mixed suits and a joker
+    const testHand = [
+      createCard(SUITS.SPADE, 1),   // Ace of Spades
+      createCard(SUITS.HEART, 2),   // 2 of Hearts
+      createCard(SUITS.HEART, 3),   // 3 of Hearts
+      createCard(SUITS.HEART, 4),   // 4 of Hearts
+      createCard(SUITS.HEART, 5),   // 5 of Hearts
+      createCard(SUITS.HEART, 6),   // 6 of Hearts
+      createCard(SUITS.HEART, 7),   // 7 of Hearts
+      createCard(SUITS.HEART, 8),   // 8 of Hearts
+      createCard(SUITS.HEART, 9),   // 9 of Hearts
+      createCard(SUITS.HEART, 11),  // Jack of Hearts
+      createCard(SUITS.HEART, 12),  // Queen of Hearts
+      createCard(SUITS.HEART, 13),  // King of Hearts
+      createCard(JOKER, 1),         // Joker
+      // 10 more cards
+      createCard(SUITS.DIAMOND, 1), // Ace of Diamonds
+      createCard(SUITS.DIAMOND, 10),// 10 of Diamonds
+      createCard(SUITS.CLUB, 1),    // Ace of Clubs
+      createCard(SUITS.CLUB, 5),    // 5 of Clubs
+      createCard(SUITS.SPADE, 9),   // 9 of Spades
+      createCard(SUITS.SPADE, 10),  // 10 of Spades
+      createCard(SUITS.DIAMOND, 11),// Jack of Diamonds
+      createCard(SUITS.DIAMOND, 12),// Queen of Diamonds
+      createCard(SUITS.CLUB, 13),   // King of Clubs
+      createCard(JOKER, 2),         // Joker 2
+      createCard(SUITS.DIAMOND, 1), // Ace of Diamonds
+      createCard(SUITS.DIAMOND, 10),// 10 of Diamonds
+      createCard(SUITS.CLUB, 1),    // Ace of Clubs
+      createCard(SUITS.CLUB, 5),    // 5 of Clubs
+      createCard(SUITS.SPADE, 9),   // 9 of Spades
+      createCard(SUITS.SPADE, 10),  // 10 of Spades
+      createCard(SUITS.DIAMOND, 11),// Jack of Diamonds
+      createCard(SUITS.DIAMOND, 12),// Queen of Diamonds
+      createCard(SUITS.CLUB, 13),   // King of Clubs
+      createCard(JOKER, 2)          // Joker 2
+      
+    ];
+
+    // Create hand display with click handlers
+    const handDisplay = createHandDisplay(testHand, {
+      width: '70px',
+      height: '100px',
+      onCardClick: (card, index, event) => {
+        console.log(`Played card: ${card.suit} ${card.rank}`);
+        event.target.style.opacity = '0.5'; // Visual feedback
+      }
+    });
+
+    document.getElementById('player-hand').appendChild(handDisplay);
+    console.log('Player hand loaded with cards:', testHand);
+  </script>
 </body>
 </html>

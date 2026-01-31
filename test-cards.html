@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canastify - Test Cards</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../src/shared/ui/cardDisplay.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Тест на Vector Cards</h1>
+    
+    <section style="margin: 20px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+      <h2>Тестова ръка (13 карти)</h2>
+      <div id="test-hand"></div>
+    </section>
+
+    <section style="margin: 20px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+      <h2>Единични карти</h2>
+      <div id="single-cards" style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <!-- Жокери -->
+        <div style="text-align: center;">
+          <img id="joker1" style="width: 70px; height: 100px; border: 2px solid #333; border-radius: 4px;" alt="Joker 1">
+          <p>Жокер</p>
+        </div>
+        <!-- Асо червено -->
+        <div style="text-align: center;">
+          <img id="heart-ace" style="width: 70px; height: 100px; border: 2px solid #333; border-radius: 4px;" alt="Heart Ace">
+          <p>♥ Асо</p>
+        </div>
+        <!-- Червена 3 -->
+        <div style="text-align: center;">
+          <img id="heart-3" style="width: 70px; height: 100px; border: 2px solid #333; border-radius: 4px;" alt="Heart 3">
+          <p>♥ 3</p>
+        </div>
+        <!-- Черна 3 -->
+        <div style="text-align: center;">
+          <img id="spade-3" style="width: 70px; height: 100px; border: 2px solid #333; border-radius: 4px;" alt="Spade 3">
+          <p>♠ 3</p>
+        </div>
+        <!-- Двойка (wild) -->
+        <div style="text-align: center;">
+          <img id="club-2" style="width: 70px; height: 100px; border: 2px solid #333; border-radius: 4px;" alt="Club 2">
+          <p>♣ 2 (wild)</p>
+        </div>
+        <!-- Koning -->
+        <div style="text-align: center;">
+          <img id="diamond-king" style="width: 70px; height: 100px; border: 2px solid #333; border-radius: 4px;" alt="Diamond King">
+          <p>♦ K</p>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin: 20px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+      <h2>Меню</h2>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="/" style="display: inline-block; margin: 5px 10px 5px 0; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px;">← Начало</a></li>
+        <li><a href="/pages/credits.html" style="display: inline-block; margin: 5px 10px 5px 0; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 4px;">Благодарности</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script type="module">
+    import { getDeck } from '../src/domain/cardMapping.js';
+    import { createHandDisplay } from '../src/shared/ui/cardDisplay.js';
+    import { getCardSvgPath } from '../src/domain/cardMapping.js';
+
+    // Load test hand
+    const testHand = getDeck().slice(0, 13);
+    const handDisplay = createHandDisplay(testHand, { 
+      width: '60px',
+      height: '90px',
+      onCardClick: (card, index) => {
+        console.log(`Clicked card ${index}: ${card.suit} ${card.rank}`);
+      }
+    });
+    document.getElementById('test-hand').appendChild(handDisplay);
+
+    // Load single cards
+    document.getElementById('joker1').src = getCardSvgPath('JOKER', 1);
+    document.getElementById('heart-ace').src = getCardSvgPath('HEART', 1);
+    document.getElementById('heart-3').src = getCardSvgPath('HEART', 3);
+    document.getElementById('spade-3').src = getCardSvgPath('SPADE', 3);
+    document.getElementById('club-2').src = getCardSvgPath('CLUB', 2);
+    document.getElementById('diamond-king').src = getCardSvgPath('DIAMOND', 13);
+
+    console.log('Card test page loaded. Open browser console for click logs.');
+    console.log('Test hand:', testHand);
+  </script>
+</body>
+</html>

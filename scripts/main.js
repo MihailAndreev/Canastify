@@ -1,5 +1,6 @@
 import { renderLayout } from './layout.js';
 import { renderRulesPage } from './pages/rulesPage.js';
+import { renderCreditsPage } from './pages/creditsPage.js';
 
 // Определяне на активната страница
 function getActivePage() {
@@ -12,6 +13,8 @@ function getActivePage() {
     return 'game';
   } else if (path === '/pages/rules.html') {
     return 'rules';
+  } else if (path === '/pages/credits.html') {
+    return 'credits';
   } else if (path === '/pages/about.html') {
     return 'about';
   }
@@ -27,6 +30,12 @@ function loadPageContent(activePage) {
   // Специално рендериране за Rules страницата
   if (activePage === 'rules') {
     renderRulesPage(contentDiv);
+    return;
+  }
+
+  // Специално рендериране за Credits страницата
+  if (activePage === 'credits') {
+    renderCreditsPage(contentDiv);
     return;
   }
 

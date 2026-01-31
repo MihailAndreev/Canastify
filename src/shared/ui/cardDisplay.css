@@ -1,0 +1,74 @@
+/* Card Display Styles */
+
+.card-img {
+  display: inline-block;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  object-fit: contain;
+  object-position: center;
+}
+
+.card-img:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.hand-display {
+  display: flex;
+  gap: -40px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  min-height: 120px;
+  align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.hand-display .card-img {
+  margin-right: -40px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.hand-display .card-img:last-child {
+  margin-right: 0;
+}
+
+.hand-display .card-img:hover {
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px);
+}
+
+.meld-display {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  min-height: 100px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.meld-group {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  background: rgba(0, 100, 0, 0.1);
+  border: 1px solid rgba(0, 100, 0, 0.3);
+  border-radius: 6px;
+}
+
+.meld-card {
+  width: 50px;
+  height: 70px;
+  object-fit: cover;
+}
