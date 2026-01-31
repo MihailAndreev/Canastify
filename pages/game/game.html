@@ -167,7 +167,7 @@
     import { createHandDisplay } from '../../src/shared/ui/cardDisplay.js';
 
     // Create a test hand with mixed suits and a joker
-    const testHand = [
+    const handCards = [
       createCard(SUITS.SPADE, 1),   // Ace of Spades
       createCard(SUITS.HEART, 2),   // 2 of Hearts
       createCard(SUITS.HEART, 3),   // 3 of Hearts
@@ -205,10 +205,13 @@
       
     ];
 
+    // Limit hand to 30 cards
+    const testHand = handCards.slice(0, 30);
+
     // Create hand display with click handlers
     const handDisplay = createHandDisplay(testHand, {
-      width: '70px',
-      height: '100px',
+      width: '94.5px',
+      height: '135px',
       onCardClick: (card, index, event) => {
         console.log(`Played card: ${card.suit} ${card.rank}`);
         event.target.style.opacity = '0.5'; // Visual feedback

@@ -477,9 +477,9 @@ playing-card[rank="joker"][suit="diamonds"]::after {
 /* Cardmeister Playing Cards */
 playing-card {
   display: inline-block;
-  width: 84px;
-  height: 117.6px;
-  margin-left: -52px;
+  width: 113.4px;
+  height: 158.76px;
+  margin-left: -70px;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   cursor: pointer;
 }
@@ -503,8 +503,8 @@ playing-card img {
 }
 
 .hand-card {
-  width: 84px;
-  height: 117.6px;
+  width: 113.4px;
+  height: 158.76px;
   background: var(--color-card-white);
   border: 1px solid #ddd;
   border-radius: var(--radius-md);
@@ -515,7 +515,7 @@ playing-card img {
   justify-content: center;
   font-weight: 700;
   position: relative;
-  margin-left: -32px;
+  margin-left: -43px;
 }
 
 .hand-card:first-child {
