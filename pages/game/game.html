@@ -72,17 +72,12 @@
       <div class="meld-panel">
         <h2 class="panel-title">OUR TEAM MELDS</h2>
         <div class="meld-grid">
-          <div class="meld-slot">
-            <div class="meld-cards">
-              <div class="mini-card">A</div>
-              <div class="mini-card">A</div>
-              <div class="mini-card">A</div>
-              <div class="mini-card">A</div>
-              <div class="mini-card">A</div>
-              <div class="mini-card red">♥</div>
-            </div>
+          <div class="meld-slot" id="meld-slot-1">
+            <div class="meld-cards"></div>
           </div>
-          <div class="meld-slot"><span class="slot-label">M2</span></div>
+          <div class="meld-slot" id="meld-slot-2">
+            <div class="meld-cards"></div>
+          </div>
           <div class="meld-slot"><span class="slot-label">M3</span></div>
           <div class="meld-slot"><span class="slot-label">M4</span></div>
           <div class="meld-slot"><span class="slot-label">M5</span></div>
@@ -163,8 +158,126 @@
   </div>
 
   <script type="module">
-    import { getDeck, createCard, JOKER, SUITS } from '../../src/domain/cardMapping.js';
+    import { createCard, JOKER, SUITS } from '../../src/domain/cardMapping.js';
     import { createHandDisplay } from '../../src/shared/ui/cardDisplay.js';
+
+    // Populate Meld Slot 1 with 5 cards (Aces)
+    const meldSlot1Cards = [
+      createCard(SUITS.HEART, 1),   // Ace of Hearts
+      createCard(SUITS.DIAMOND, 1), // Ace of Diamonds
+      createCard(SUITS.CLUB, 1),    // Ace of Clubs
+      createCard(SUITS.SPADE, 1),   // Ace of Spades
+      createCard(SUITS.HEART, 1),   // Ace of Hearts (duplicate)
+    ];
+
+    // Populate Meld Slot 2 with 7 cards (Kings)
+    const meldSlot2Cards = [
+      createCard(SUITS.HEART, 13),   // King of Hearts
+      createCard(SUITS.DIAMOND, 13), // King of Diamonds
+      createCard(SUITS.CLUB, 13),    // King of Clubs
+      createCard(SUITS.SPADE, 13),   // King of Spades
+      createCard(SUITS.HEART, 13),   // King of Hearts (duplicate)
+      createCard(SUITS.DIAMOND, 13), // King of Diamonds (duplicate)
+      createCard(JOKER, 1),          // Joker (wild card)
+    ];
+
+    // Get meld slot containers
+    const meldSlot1Container = document.getElementById('meld-slot-1').querySelector('.meld-cards');
+    const meldSlot2Container = document.getElementById('meld-slot-2').querySelector('.meld-cards');
+
+    /**
+     * Calculate exact card size for N cards with 70% overlap to fill slot
+     * Formula: totalWidth = cardWidth * (1 + (N-1) * overlapPercentage)
+     * @param {number} slotWidth - Width of meld slot in px
+     * @param {number} slotHeight - Height of meld slot in px
+     * @param {number} totalCards - Total number of cards
+     * @returns {object} - { cardWidth, cardHeight }
+     */
+    function calculateCardSize(slotWidth, slotHeight, totalCards) {
+      const OVERLAP_PERCENTAGE = 0.3; // 70% overlap means 30% visible
+      const CARD_ASPECT_RATIO = 0.75; // width/height ratio of standard playing cards
+      const PADDING = 4; // Padding to keep slot frame visible
+      
+      // Calculate width needed to fit N cards with 70% overlap
+      // totalWidth = cardWidth * (1 + (N-1) * 0.3)
+      const widthMultiplier = 1 + (totalCards - 1) * OVERLAP_PERCENTAGE;
+      const availableWidth = slotWidth - (2 * PADDING);
+      const cardWidth = availableWidth / widthMultiplier;
+      
+      // Use card's aspect ratio for height
+      const cardHeight = cardWidth / CARD_ASPECT_RATIO;
+      
+      // Verify it fits in slot height with padding
+      const availableHeight = slotHeight - (2 * PADDING);
+      if (cardHeight > availableHeight) {
+        const adjustedCardHeight = availableHeight;
+        const adjustedCardWidth = adjustedCardHeight * CARD_ASPECT_RATIO;
+        return { cardWidth: adjustedCardWidth, cardHeight: adjustedCardHeight };
+      }
+      
+      return { cardWidth, cardHeight };
+    }
+
+    /**
+     * Calculate card positioning for overlapping effect (70% overlap)
+     * @param {number} cardWidth - Width of a single card in px
+     * @returns {number} - Horizontal offset between cards
+     */
+    function calculateCardOffset(cardWidth) {
+      // 70% overlap means 30% of card width is visible
+      return cardWidth * 0.3;
+    }
+
+    /**
+     * Populate a meld slot with cards
+     * @param {HTMLElement} container - The meld-cards container
+     * @param {array} cards - Array of card objects
+     */
+    function populateMeldSlot(container, cards) {
+      // Get meld slot dimensions
+      const meldSlot = container.parentElement;
+      const slotWidth = meldSlot.offsetWidth;
+      const slotHeight = meldSlot.offsetHeight;
+
+      // Calculate exact card size for this many cards
+      const { cardWidth, cardHeight } = calculateCardSize(slotWidth, slotHeight, cards.length);
+      const cardOffset = calculateCardOffset(cardWidth);
+      // Clear container
+      container.innerHTML = '';
+
+      // Calculate starting position - first card starts at left with padding
+      const PADDING = 4;
+      const startX = PADDING;
+
+      // Add cards with positioning
+      cards.forEach((card, index) => {
+        const img = document.createElement('img');
+        img.src = card.svgPath;
+        img.alt = `${card.suit} ${card.rank}`;
+        img.style.width = `${cardWidth}px`;
+        img.style.height = `${cardHeight}px`;
+        img.style.left = `${startX + index * cardOffset}px`;
+        img.style.zIndex = index;
+        
+        container.appendChild(img);
+      });
+    }
+
+    // Wait for meld slots to be measured before populating
+    requestAnimationFrame(() => {
+      populateMeldSlot(meldSlot1Container, meldSlot1Cards);
+      populateMeldSlot(meldSlot2Container, meldSlot2Cards);
+    });
+
+    // Create ResizeObserver to handle responsive resizing (zoom, window resize, etc.)
+    const resizeObserver = new ResizeObserver(() => {
+      populateMeldSlot(meldSlot1Container, meldSlot1Cards);
+      populateMeldSlot(meldSlot2Container, meldSlot2Cards);
+    });
+
+    // Observe both meld slots for size changes
+    resizeObserver.observe(meldSlot1Container.parentElement);
+    resizeObserver.observe(meldSlot2Container.parentElement);
 
     // Create a test hand with mixed suits and a joker
     const handCards = [

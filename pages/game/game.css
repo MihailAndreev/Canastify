@@ -307,10 +307,23 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   font-weight: 600;
 }
 
+/* Meld Cards Container with Overlapping */
 .meld-cards {
   display: flex;
-  gap: 2px;
-  padding: var(--spacing-xs);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  position: relative;
+}
+
+.meld-cards img {
+  position: absolute;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .mini-card {
