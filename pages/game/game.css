@@ -142,7 +142,7 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: var(--spacing-md);
+  padding: var(--spacing-xs);
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
@@ -151,22 +151,22 @@ playing-card[rank="joker"][suit="diamonds"]::after {
 
 .player-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: var(--spacing-xs);
   flex: 1;
 }
 
 .avatar {
-  width: 48px;
-  height: 48px;
+  width: 57.6px;
+  height: 57.6px;
   border-radius: var(--radius-round);
   background: var(--color-avatar-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 19.2px;
   color: var(--color-text-light);
   box-shadow: var(--shadow-sm);
 }
@@ -192,8 +192,8 @@ playing-card[rank="joker"][suit="diamonds"]::after {
 }
 
 .counter-card {
-  width: 40px;
-  height: 56px;
+  width: 48px;
+  height: 67.2px;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-md);
   position: relative;
@@ -201,25 +201,49 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 19.2px;
 }
 
 .blue-counter {
-  background: var(--color-blue-counter);
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(255, 255, 255, 0.05) 10px,
-    rgba(255, 255, 255, 0.05) 20px
-  );
+  background: #1a3a7a;
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.04) 10px, rgba(255, 255, 255, 0.04) 20px),
+    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.04) 10px, rgba(255, 255, 255, 0.04) 20px);
   color: var(--color-text-light);
+  position: relative;
+}
+
+.blue-counter::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 50%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.blue-counter::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 30deg, rgba(255, 255, 255, 0.1) 30deg 60deg);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .red3-counter {
   background: var(--color-card-white);
   color: var(--color-red-suit);
-  font-size: 24px;
+  font-size: 28.8px;
   font-weight: 800;
 }
 
@@ -227,16 +251,30 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   position: absolute;
   bottom: 4px;
   right: 4px;
-  width: 18px;
-  height: 18px;
+  width: 21.6px;
+  height: 21.6px;
   border-radius: var(--radius-round);
   background: var(--color-red-badge);
   color: var(--color-card-white);
-  font-size: 11px;
+  font-size: 13.2px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.counter-value {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-round);
+  background: var(--color-blue-badge);
+  color: var(--color-card-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
   box-shadow: var(--shadow-sm);
 }
 
@@ -249,6 +287,17 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   gap: var(--spacing-lg);
   flex: 1;
   min-height: 0;
+}
+
+/* ========================================
+   Team Color Coding
+   ======================================== */
+.team-our {
+  background: rgba(26, 104, 71, 0.25) !important;
+}
+
+.team-opponent {
+  background: rgba(77, 13, 45, 0.25) !important;
 }
 
 /* ========================================
@@ -366,7 +415,7 @@ playing-card[rank="joker"][suit="diamonds"]::after {
 .deck,
 .discard {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   gap: var(--spacing-xs);
   position: relative;
@@ -386,15 +435,38 @@ playing-card[rank="joker"][suit="diamonds"]::after {
 }
 
 .deck-card {
-  background: var(--color-blue-counter);
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 8px,
-    rgba(255, 255, 255, 0.08) 8px,
-    rgba(255, 255, 255, 0.08) 16px
-  );
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: #1a3a7a;
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.04) 10px, rgba(255, 255, 255, 0.04) 20px),
+    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.04) 10px, rgba(255, 255, 255, 0.04) 20px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.deck-card::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 50%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.deck-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 35px;
+  height: 35px;
+  background: repeating-conic-gradient(from 0deg, transparent 0deg 30deg, rgba(255, 255, 255, 0.15) 30deg 60deg);
+  border-radius: 50%;
 }
 
 .discard-card {
@@ -429,7 +501,8 @@ playing-card[rank="joker"][suit="diamonds"]::after {
 .discard-badge {
   position: absolute;
   bottom: 6px;
-  right: 6px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 28px;
   height: 28px;
   border-radius: var(--radius-round);
@@ -444,10 +517,16 @@ playing-card[rank="joker"][suit="diamonds"]::after {
 
 .deck-badge {
   background: var(--color-blue-badge);
+  width: 42px;
+  height: 42px;
+  font-size: 19.5px;
 }
 
 .discard-badge {
   background: var(--color-red-badge);
+  width: 42px;
+  height: 42px;
+  font-size: 19.5px;
 }
 
 .deck-label,

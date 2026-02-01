@@ -15,7 +15,7 @@
     <!-- Top Player Bar -->
     <div class="top-bar">
       <!-- Opponent 1 -->
-      <div class="player-tile">
+      <div class="player-tile team-opponent">
         <div class="player-info">
           <div class="avatar">O1</div>
           <div class="player-label">Opponent 1</div>
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Partner -->
-      <div class="player-tile">
+      <div class="player-tile team-our">
         <div class="player-info">
           <div class="avatar">PT</div>
           <div class="player-label">Partner</div>
@@ -49,7 +49,7 @@
       </div>
 
       <!-- Opponent 2 -->
-      <div class="player-tile">
+      <div class="player-tile team-opponent">
         <div class="player-info">
           <div class="avatar">O2</div>
           <div class="player-label">Opponent 2</div>
@@ -69,7 +69,7 @@
     <!-- Middle Area: 3 Columns -->
     <div class="middle-area">
       <!-- Left Column: Our Team Melds -->
-      <div class="meld-panel">
+      <div class="meld-panel team-our">
         <h2 class="panel-title">OUR TEAM MELDS</h2>
         <div class="meld-grid">
           <div class="meld-slot" id="meld-slot-1">
@@ -123,7 +123,7 @@
       </div>
 
       <!-- Right Column: Opponent Melds -->
-      <div class="meld-panel">
+      <div class="meld-panel team-opponent">
         <h2 class="panel-title">OPPONENT MELDS</h2>
         <div class="meld-grid">
           <div class="meld-slot"><span class="slot-label">M1</span></div>
@@ -151,7 +151,7 @@
     </div>
 
     <!-- Bottom: Player's Hand -->
-    <div class="hand" id="player-hand">
+    <div class="hand team-our" id="player-hand">
       <!-- Vector Cards will be loaded here -->
     </div>
   </div>
