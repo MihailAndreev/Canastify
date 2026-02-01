@@ -15,35 +15,107 @@
   transform: translateY(-2px);
 }
 
+/* Hand Display Container - Fixed Width with Dynamic Two-Row Layout */
 .hand-display {
-  display: flex;
-  gap: -54px;
+  position: relative;
+  width: 100%;
+  height: 160px;
   padding: 12px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  min-height: 120px;
-  align-items: center;
-  justify-content: flex-start;
-  width: fit-content;
   margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: hidden;
 }
 
-.hand-display .card-img {
-  margin-right: -54px;
+/* Red Threes Container - Fixed positions on the left */
+.hand-display .red-threes-section {
   position: relative;
-  z-index: 1;
-  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
   flex-shrink: 0;
 }
 
-.hand-display .card-img:last-child {
-  margin-right: 0;
+.hand-display .red-three-slot {
+  position: relative;
+  width: 94.5px;
+  height: 135px;
+  flex-shrink: 0;
 }
 
-.hand-display .card-img:hover {
+.hand-display .red-three-slot:not(:last-child) {
+  margin-right: calc(94.5px * -0.85);
+}
+
+.hand-display .red-three-slot .card-img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Gap between red threes and hand cards (10% of card width) */
+.hand-display .hand-cards-separator {
+  width: 9.45px;
+  flex-shrink: 0;
+}
+
+/* Main hand cards section - Two rows */
+.hand-display .hand-cards-wrapper {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: visible;
+}
+
+/* First row of hand cards */
+.hand-display .hand-row {
+  position: relative;
+  height: 135px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Second row - positioned to overlap first row */
+.hand-display .hand-row.row-2 {
+  position: absolute;
+  top: 67.5px;
+  left: 0;
+  right: 0;
+  height: 135px;
+  z-index: 2;
+}
+
+/* Individual card in hand with absolute positioning */
+.hand-display .hand-row .card-img {
+  position: absolute;
+  width: 94.5px;
+  height: 135px;
+  flex-shrink: 0;
+  z-index: 1;
+  transition: all 0.2s ease;
+  margin: 0;
+}
+
+/* Hover effect for hand cards */
+.hand-display .hand-row .card-img:hover {
   z-index: 10;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   transform: translateY(-5px);
+}
+
+/* Empty space on the right (mirror of red threes section) */
+.hand-display .right-padding {
+  width: 150px;
+  flex-shrink: 0;
 }
 
 .meld-display {
