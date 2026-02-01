@@ -345,6 +345,48 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   transition: all 0.2s ease;
 }
 
+.meld-slot.has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px);
+  background: #0d6efd;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(13, 110, 253, 0.35);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+}
+
+.meld-slot.has-tooltip::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 2px);
+  transform: translateX(-50%);
+  border-width: 8px 8px 0 8px;
+  border-style: solid;
+  border-color: #0d6efd transparent transparent transparent;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 19;
+}
+
+.meld-slot.has-tooltip:hover::after,
+.meld-slot.has-tooltip:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 .meld-slot:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.25);

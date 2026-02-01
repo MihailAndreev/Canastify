@@ -127,7 +127,9 @@
         <h2 class="panel-title">OPPONENT MELDS</h2>
         <div class="meld-grid">
           <div class="meld-slot"><span class="slot-label">M1</span></div>
-          <div class="meld-slot"><span class="slot-label">M2</span></div>
+          <div class="meld-slot" id="opp-meld-slot-2">
+            <div class="meld-cards"></div>
+          </div>
           <div class="meld-slot"><span class="slot-label">M3</span></div>
           <div class="meld-slot"><span class="slot-label">M4</span></div>
           <div class="meld-slot"><span class="slot-label">M5</span></div>
@@ -180,9 +182,92 @@
       createCard(JOKER, 1),          // Joker (wild card)
     ];
 
+    // Opponent Meld Slot 2 with 5-card set/run (Clubs)
+    const opponentMeldSlot2Cards = [
+      createCard(SUITS.CLUB, 5),
+      createCard(SUITS.CLUB, 6),
+      createCard(SUITS.CLUB, 7),
+      createCard(SUITS.CLUB, 8),
+      createCard(SUITS.CLUB, 9)
+    ];
+
     // Get meld slot containers
     const meldSlot1Container = document.getElementById('meld-slot-1').querySelector('.meld-cards');
     const meldSlot2Container = document.getElementById('meld-slot-2').querySelector('.meld-cards');
+    const opponentMeldSlot2Container = document.getElementById('opp-meld-slot-2').querySelector('.meld-cards');
+
+    const RANK_NAMES = {
+      1: 'ace',
+      2: 'two',
+      3: 'three',
+      4: 'four',
+      5: 'five',
+      6: 'six',
+      7: 'seven',
+      8: 'eight',
+      9: 'nine',
+      10: 'ten',
+      11: 'jack',
+      12: 'queen',
+      13: 'king'
+    };
+
+    const RANK_PLURALS = {
+      ace: 'aces',
+      two: 'twos',
+      three: 'threes',
+      four: 'fours',
+      five: 'fives',
+      six: 'sixes',
+      seven: 'sevens',
+      eight: 'eights',
+      nine: 'nines',
+      ten: 'tens',
+      jack: 'jacks',
+      queen: 'queens',
+      king: 'kings'
+    };
+
+    const SUIT_NAMES = {
+      [SUITS.HEART]: 'hearts',
+      [SUITS.DIAMOND]: 'diamonds',
+      [SUITS.CLUB]: 'clubs',
+      [SUITS.SPADE]: 'spades'
+    };
+
+    function isConsecutive(ranks) {
+      const sorted = [...new Set(ranks)].sort((a, b) => a - b);
+      if (sorted.length < 3) return false;
+      for (let i = 1; i < sorted.length; i += 1) {
+        if (sorted[i] !== sorted[i - 1] + 1) return false;
+      }
+      return true;
+    }
+
+    function getMeldHoverText(cards) {
+      if (!cards || cards.length === 0) return '';
+      if (cards.length >= 7) return '';
+
+      const nonJokers = cards.filter(card => !card.isJoker);
+      if (nonJokers.length === 0) return '';
+
+      const firstRank = nonJokers[0].rank;
+      const allSameRank = nonJokers.every(card => card.rank === firstRank);
+      if (allSameRank) {
+        const rankName = RANK_NAMES[firstRank];
+        const rankPlural = RANK_PLURALS[rankName] || `${rankName}s`;
+        return `meld of ${rankPlural}`;
+      }
+
+      const firstSuit = nonJokers[0].suit;
+      const allSameSuit = nonJokers.every(card => card.suit === firstSuit);
+      if (allSameSuit && isConsecutive(nonJokers.map(card => card.rank))) {
+        const suitName = SUIT_NAMES[firstSuit] || firstSuit.toLowerCase();
+        return `set of ${suitName}`;
+      }
+
+      return 'meld';
+    }
 
     /**
      * Calculate exact card size for N cards with 70% overlap to fill slot
@@ -260,12 +345,22 @@
         
         container.appendChild(img);
       });
+
+      const hoverText = getMeldHoverText(cards);
+      if (hoverText) {
+        meldSlot.dataset.tooltip = hoverText;
+        meldSlot.classList.add('has-tooltip');
+      } else {
+        delete meldSlot.dataset.tooltip;
+        meldSlot.classList.remove('has-tooltip');
+      }
     }
 
     // Wait for meld slots to be measured before populating
     requestAnimationFrame(() => {
       populateMeldSlot(meldSlot1Container, meldSlot1Cards);
       populateMeldSlot(meldSlot2Container, meldSlot2Cards);
+      populateMeldSlot(opponentMeldSlot2Container, opponentMeldSlot2Cards);
     });
 
     // Create ResizeObserver to handle responsive resizing (zoom, window resize, etc.)
@@ -277,6 +372,7 @@
     // Observe both meld slots for size changes
     resizeObserver.observe(meldSlot1Container.parentElement);
     resizeObserver.observe(meldSlot2Container.parentElement);
+    resizeObserver.observe(opponentMeldSlot2Container.parentElement);
 
     // Create a test hand with mixed suits and a joker
     const handCards = [
