@@ -80,6 +80,23 @@
   transform: translateY(-5px);
 }
 
+/* Drag feedback for hand cards */
+.hand-display .hand-row .card-img.is-dragging {
+  opacity: 0.6;
+  cursor: grabbing;
+}
+
+.hand-display .hand-row .hand-drop-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: rgba(255, 215, 0, 0.9);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+  z-index: 20;
+  pointer-events: none;
+}
+
 /* Empty space on the right (mirror of red threes section) */
 .hand-display .right-padding {
   width: 150px;

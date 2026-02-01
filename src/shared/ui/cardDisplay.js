@@ -131,6 +131,11 @@ function distributeCardsToRows(cards) {
 export function createHandDisplay(cards, options = {}) {
   const container = document.createElement('div');
   container.className = 'hand-display';
+
+  let draggedCardEl = null;
+  let draggedCardEls = [];
+  let dragSourceRow = null;
+  const dropIndicators = new Map();
   
   // Limit to 70 cards max
   const validCards = cards.slice(0, 70);
@@ -225,6 +230,138 @@ export function createHandDisplay(cards, options = {}) {
   // Create row 1
   const rowEl1 = document.createElement('div');
   rowEl1.className = 'hand-row row-1';
+
+  function getDropIndicator(rowEl) {
+    if (!dropIndicators.has(rowEl)) {
+      const indicator = document.createElement('div');
+      indicator.className = 'hand-drop-indicator';
+      indicator.style.display = 'none';
+      rowEl.appendChild(indicator);
+      dropIndicators.set(rowEl, indicator);
+    }
+    return dropIndicators.get(rowEl);
+  }
+
+  function hideDropIndicator(rowEl) {
+    if (rowEl) {
+      const indicator = dropIndicators.get(rowEl);
+      if (indicator) indicator.style.display = 'none';
+      return;
+    }
+
+    dropIndicators.forEach((indicator) => {
+      indicator.style.display = 'none';
+    });
+  }
+
+  function getInsertBeforeEl(rowEl, clientX) {
+    const cards = Array.from(rowEl.querySelectorAll('.hand-card'))
+      .filter((el) => !draggedCardEls.includes(el));
+    const rowRect = rowEl.getBoundingClientRect();
+
+    for (const cardEl of cards) {
+      const rect = cardEl.getBoundingClientRect();
+      const midpoint = rect.left + rect.width / 2;
+      if (clientX < midpoint) {
+        return { beforeEl: cardEl, left: rect.left - rowRect.left };
+      }
+    }
+
+    if (cards.length > 0) {
+      const lastRect = cards[cards.length - 1].getBoundingClientRect();
+      return { beforeEl: null, left: lastRect.right - rowRect.left };
+    }
+
+    return { beforeEl: null, left: 0 };
+  }
+
+  function attachDragHandlers(rowEl) {
+    rowEl.addEventListener('dragover', (event) => {
+      if (!draggedCardEl || draggedCardEls.length === 0) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+
+      const { beforeEl, left } = getInsertBeforeEl(rowEl, event.clientX);
+      rowEl._dropBeforeEl = beforeEl;
+
+      const indicator = getDropIndicator(rowEl);
+      indicator.style.left = `${Math.max(0, left)}px`;
+      indicator.style.display = 'block';
+    });
+
+    rowEl.addEventListener('drop', (event) => {
+      if (!draggedCardEl || draggedCardEls.length === 0) return;
+      event.preventDefault();
+
+      const beforeEl = rowEl._dropBeforeEl || null;
+      if (beforeEl) {
+        draggedCardEls.forEach((cardEl) => {
+          rowEl.insertBefore(cardEl, beforeEl);
+        });
+      } else {
+        draggedCardEls.forEach((cardEl) => {
+          rowEl.appendChild(cardEl);
+        });
+      }
+
+      draggedCardEls.forEach((cardEl) => {
+        cardEl.classList.remove('card-selected');
+      });
+
+      hideDropIndicator(rowEl);
+      updateCardPositions();
+
+      container.dispatchEvent(new CustomEvent('hand:reorder', {
+        bubbles: true,
+        detail: {
+          cardIds: draggedCardEls
+            .map((cardEl) => cardEl.dataset.cardId)
+            .filter(Boolean)
+        }
+      }));
+    });
+
+    rowEl.addEventListener('dragleave', (event) => {
+      if (!rowEl.contains(event.relatedTarget)) {
+        hideDropIndicator(rowEl);
+      }
+    });
+  }
+
+  function applyDraggable(cardEl) {
+    cardEl.draggable = true;
+
+    cardEl.addEventListener('dragstart', (event) => {
+      draggedCardEl = cardEl;
+      cardEl.classList.add('is-dragging');
+      dragSourceRow = cardEl.closest('.hand-row');
+
+      if (cardEl.classList.contains('card-selected') && dragSourceRow) {
+        draggedCardEls = Array.from(dragSourceRow.querySelectorAll('.hand-card.card-selected'));
+      } else {
+        draggedCardEls = [cardEl];
+      }
+
+      draggedCardEls.forEach((el) => el.classList.add('is-dragging'));
+
+      event.dataTransfer.effectAllowed = 'move';
+      if (cardEl.dataset.cardId) {
+        event.dataTransfer.setData('text/plain', cardEl.dataset.cardId);
+      } else {
+        event.dataTransfer.setData('text/plain', 'hand-card');
+      }
+    });
+
+    cardEl.addEventListener('dragend', () => {
+      draggedCardEls.forEach((el) => el.classList.remove('is-dragging'));
+      draggedCardEl = null;
+      draggedCardEls = [];
+      dragSourceRow = null;
+      hideDropIndicator();
+    });
+  }
+
+  attachDragHandlers(rowEl1);
   
   row1.forEach((card) => {
     const cardEl = createCardElement(card, {
@@ -236,6 +373,8 @@ export function createHandDisplay(cards, options = {}) {
         }
       }
     });
+
+    applyDraggable(cardEl);
     
     // Initial position (will be updated by updateCardPositions)
     cardEl.style.width = `${CARD_WIDTH}px`;
@@ -250,6 +389,8 @@ export function createHandDisplay(cards, options = {}) {
   if (row2.length > 0) {
     const rowEl2 = document.createElement('div');
     rowEl2.className = 'hand-row row-2';
+
+    attachDragHandlers(rowEl2);
     
     row2.forEach((card) => {
       const cardEl = createCardElement(card, {
@@ -261,6 +402,8 @@ export function createHandDisplay(cards, options = {}) {
           }
         }
       });
+
+      applyDraggable(cardEl);
       
       // Initial position (will be updated by updateCardPositions)
       cardEl.style.width = `${CARD_WIDTH}px`;

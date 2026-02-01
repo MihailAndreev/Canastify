@@ -5,7 +5,7 @@
 
 import { playerTurnState, canDrawFromDeck, canTakeDiscardPile, canMeld, canDiscard } from '../player/playerTurn.js';
 import { actionDrawFromDeck, actionTakeDiscardPile } from './playerActions.js';
-import { toggleSelected, playerHandState, getSelectedCount } from './playerHand.js';
+import { toggleSelected, playerHandState, getSelectedCount, clearSelection } from './playerHand.js';
 
 // Module-scoped variable to store current buttons for UI refresh
 let currentButtons = null;
@@ -92,6 +92,17 @@ export function initPlayerUI() {
         if (currentButtons) {
           refreshUI(currentButtons);
         }
+      }
+    });
+
+    playerHandContainer.addEventListener('hand:reorder', () => {
+      clearSelection();
+      playerHandContainer.querySelectorAll('.card-selected').forEach((el) => {
+        el.classList.remove('card-selected');
+      });
+
+      if (currentButtons) {
+        refreshUI(currentButtons);
       }
     });
   } else {
