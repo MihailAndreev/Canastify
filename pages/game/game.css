@@ -44,6 +44,38 @@
   --shadow-inset: inset 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+.player-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 1px;
+}
+
+.player-actions button {
+  flex: 1;
+  max-width: 180px;
+  padding: 5px 5px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.player-actions button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.player-actions button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -606,8 +638,9 @@ playing-card[rank="joker"][suit="diamonds"]::after {
    ======================================== */
 .hand {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   gap: 0;
   padding: var(--spacing-md);
   margin-top: auto;
@@ -673,8 +706,10 @@ playing-card {
   width: 113.4px;
   height: 158.76px;
   margin-left: -70px;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0s, opacity 0s;
   cursor: pointer;
+  opacity: 1;
+  filter: none;
 }
 
 playing-card:first-child {
@@ -683,7 +718,7 @@ playing-card:first-child {
 
 playing-card:hover {
   transform: translateY(-12px) scale(1.05);
-  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
 
@@ -769,6 +804,37 @@ playing-card img {
   }
 }
 
+/* ========================================
+   Selected Card Styling
+   ======================================== */
+.card-selected {
+  outline: 3px solid rgba(243, 228, 11, 0.932);
+  outline-offset: -3px;
+  transform: translateY(-6px);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  transition: transform 0.15s ease, filter 0s, opacity 0s;
+  opacity: 1 !important;
+}
+
+/* Reset opacity and filter for non-selected cards */
+playing-card:not(.card-selected):not(:hover),
+playing-card:not(:hover),
+.card-img:not(.card-selected):not(:hover),
+.card-img:not(:hover) {
+  opacity: 1 !important;
+  filter: none !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0s, opacity 0s !important;
+}
+
+/* Override :active and :focus states to prevent fading */
+playing-card:active,
+playing-card:focus,
+.card-img:active,
+.card-img:focus {
+  opacity: 1;
+  filter: none;
+}
+
 @media (max-width: 1200px) {
   .middle-area {
     gap: var(--spacing-md);
@@ -804,4 +870,26 @@ playing-card img {
   .hand-card:first-child {
     margin-left: 0;
   }
+}
+
+/* === HARD RESET: prevent any card fading === */
+#playerHand [data-card-id],
+#playerHand [data-card-id]:hover,
+#playerHand [data-card-id]:active,
+#playerHand [data-card-id]:focus,
+#playerHand [data-card-id]:focus-visible {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Ensure selected cards also never fade */
+#playerHand [data-card-id].card-selected,
+#playerHand [data-card-id].card-selected:hover {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Allow only movement + outline animation */
+#playerHand [data-card-id] {
+  transition: transform 120ms ease, outline 120ms ease, box-shadow 120ms ease !important;
 }

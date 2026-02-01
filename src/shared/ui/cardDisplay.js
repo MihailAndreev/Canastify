@@ -17,6 +17,11 @@ export function createCardElement(card, options = {}) {
   img.alt = `${card.suit} ${card.rank}`;
   img.className = `card-img ${options.className || ''}`;
   
+  // Add stable card identifier
+  if (card.id) {
+    img.dataset.cardId = card.id;
+  }
+  
   if (options.width) img.style.width = options.width;
   if (options.height) img.style.height = options.height;
   if (options.onClick) img.addEventListener('click', options.onClick);

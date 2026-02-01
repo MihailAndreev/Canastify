@@ -8,6 +8,8 @@
   transition: all 0.2s ease;
   object-fit: contain;
   object-position: center;
+  opacity: 1;
+  filter: none;
 }
 
 .card-img:hover {
@@ -194,4 +196,28 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* ========================================
+   Card State Reset - Prevent Fading
+   ======================================== */
+/* Ensure selected cards are NOT faded */
+.card-img.card-selected {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Ensure normal cards always reset to full opacity */
+.card-img:not(.card-selected):not(:hover),
+.card-img:not(:hover) {
+  opacity: 1 !important;
+  filter: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0s, opacity 0s !important;
+}
+
+/* Override :active and :focus states */
+.card-img:active,
+.card-img:focus {
+  opacity: 1;
+  filter: none;
 }

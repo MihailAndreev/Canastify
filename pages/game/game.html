@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canastify - Игра</title>
   <link rel="stylesheet" href="./game.css">
-  <script src="/vendor/cardmeister/elements.cardmeister.full.js"></script>
 </head>
 <body>
   <div class="board">
@@ -166,6 +165,15 @@
           <div class="hand-badge red-badge" id="hand-red3-count">0</div>
           <div class="counter-label">RED 3s</div>
         </div>
+      </div>
+
+      <!-- Player Action Buttons -->
+      <div class="player-actions">
+        <button id="btnSortHand" type="button" style="background-color: #007bff; color: white;">Sort</button>
+        <button id="btnDrawDeck" type="button">Draw from deck</button>
+        <button id="btnTakeDiscard" type="button">Take discard pile</button>
+        <button id="btnMeld" type="button" disabled>Meld</button>
+        <button id="btnDiscard" type="button" disabled>Discard</button>
       </div>
     </div>
   </div>
@@ -431,7 +439,6 @@
       height: '135px',
       onCardClick: (card, index, event) => {
         console.log(`Played card: ${card.suit} ${card.rank}`);
-        event.target.style.opacity = '0.5'; // Visual feedback
       }
     });
 
@@ -439,5 +446,6 @@
     console.log('Player hand loaded with cards:', testHand);
     console.log(`Hand stats: ${totalCards} cards, ${redThreesCount} red threes`);
   </script>
+  <script type="module" src="./game.js"></script>
 </body>
 </html>
