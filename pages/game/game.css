@@ -44,6 +44,38 @@
   --shadow-inset: inset 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+.player-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 1px;
+}
+
+.player-actions button {
+  flex: 1;
+  max-width: 180px;
+  padding: 5px 5px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.player-actions button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.player-actions button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -606,8 +638,9 @@ playing-card[rank="joker"][suit="diamonds"]::after {
    ======================================== */
 .hand {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   gap: 0;
   padding: var(--spacing-md);
   margin-top: auto;
