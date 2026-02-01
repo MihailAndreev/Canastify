@@ -20,27 +20,21 @@ import { getSelectedIds, clearSelection } from './playerHand.js';
  */
 export function actionDrawFromDeck() {
   if (!canDrawFromDeck()) {
-    return { ok: false, message: 'Cannot draw from deck in current phase' };
+    return { ok: false, message: 'Cannot draw from deck.' };
   }
-
-  // TODO: Draw logic from deck
   setPhase(TURN_PHASES.AFTER_DRAW);
-  
   return { ok: true };
 }
 
 /**
- * Action: Take discard pile
+ * Action: Take from discard pile
  * @returns {Object} { ok: boolean, message?: string }
  */
 export function actionTakeDiscardPile() {
   if (!canTakeDiscardPile()) {
-    return { ok: false, message: 'Cannot take discard pile in current phase' };
+    return { ok: false, message: 'Cannot take from discard pile.' };
   }
-
-  // TODO: Take discard pile logic
   setPhase(TURN_PHASES.AFTER_TAKE_DISCARD);
-  
   return { ok: true };
 }
 
