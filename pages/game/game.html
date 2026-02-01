@@ -379,13 +379,13 @@
     const handCards = [];
     
     // Add 4 red threes first (these will be positioned on the left)
-    // handCards.push(createCard(SUITS.HEART, 3));     // Red Three 1
-    // handCards.push(createCard(SUITS.DIAMOND, 3));   // Red Three 2
-    // handCards.push(createCard(SUITS.HEART, 3));     // Red Three 3
-    // handCards.push(createCard(SUITS.DIAMOND, 3));   // Red Three 4
+    handCards.push(createCard(SUITS.HEART, 3));     // Red Three 1
+    handCards.push(createCard(SUITS.DIAMOND, 3));   // Red Three 2
+    handCards.push(createCard(SUITS.HEART, 3));     // Red Three 3
+    handCards.push(createCard(SUITS.DIAMOND, 3));   // Red Three 4
     
     // Add 70 regular cards (mixed ranks and suits)
-    for (let i = 0; i < 37; i++) {
+    for (let i = 0; i < 70; i++) {
       const suits = [SUITS.HEART, SUITS.DIAMOND, SUITS.CLUB, SUITS.SPADE];
       const rank = (i % 13) + 1;  // Cycle through ranks 1-13
       const suit = suits[i % 4];   // Cycle through suits
