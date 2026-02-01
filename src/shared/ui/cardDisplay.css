@@ -37,32 +37,51 @@
   align-items: center;
   margin-right: 10px;
   flex-shrink: 0;
-  /* Fixed width: 94.5px + (3 × 94.5px × 0.15) = 94.5 + 42.525 = 137.025px */
-  width: 137.025px;
+  /* Fixed width: 94.5px + (3 × 94.5px × 0.15) = 94.5 + 42.525 = 136.525px */
+  width: 136.525px;
   height: 135px;
 }
 
-.hand-display .red-three-slot {
+/* Red threes section - ALWAYS reserved (4 positions) - NO BORDERS */
+.red-threes-section {
   position: relative;
+  width: 136.525px; /* Calculated for 4 positions with 85% overlap */
+  height: 135px;
+  flex-shrink: 0;
+}
+
+/* Remove outer border when section has cards */
+.red-threes-section:has(.red-three-card) {
+  border: none;
+}
+
+/* Empty red three positions - NO visible borders */
+.red-three-position:empty {
+  /* Borders removed - completely invisible when empty */
+}
+
+/* Individual card in hand with absolute positioning */
+.hand-display .hand-row .card-img {
+  position: absolute;
   width: 94.5px;
   height: 135px;
   flex-shrink: 0;
-  /* Visual indicator for empty slots (optional) */
-  border: 1px dashed rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  z-index: 1;
+  transition: all 0.2s ease;
+  margin: 0;
 }
 
-.hand-display .red-three-slot:not(:last-child) {
-  margin-right: calc(94.5px * -0.85);
+/* Hover effect for hand cards */
+.hand-display .hand-row .card-img:hover {
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: translateY(-5px);
 }
 
-.hand-display .red-three-slot .card-img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: none; /* Remove border when card is present */
+/* Empty space on the right (mirror of red threes section) */
+.hand-display .right-padding {
+  width: 150px;
+  flex-shrink: 0;
 }
 
 /* Gap between red threes and hand cards (10% of card width) */
@@ -101,30 +120,27 @@
   z-index: 2;
 }
 
-/* Individual card in hand with absolute positioning */
-.hand-display .hand-row .card-img {
-  position: absolute;
+/* Legacy slot class (if still referenced) - NO BORDERS */
+.hand-display .red-three-slot {
+  position: relative;
   width: 94.5px;
   height: 135px;
   flex-shrink: 0;
-  z-index: 1;
-  transition: all 0.2s ease;
-  margin: 0;
 }
 
-/* Hover effect for hand cards */
-.hand-display .hand-row .card-img:hover {
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  transform: translateY(-5px);
+.hand-display .red-three-slot:not(:last-child) {
+  margin-right: calc(94.5px * -0.85);
 }
 
-/* Empty space on the right (mirror of red threes section) */
-.hand-display .right-padding {
-  width: 150px;
-  flex-shrink: 0;
+.hand-display .red-three-slot .card-img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
+/* Meld display */
 .meld-display {
   display: flex;
   gap: 20px;
@@ -150,4 +166,32 @@
   width: 50px;
   height: 70px;
   object-fit: cover;
+}
+
+/* Red threes section - ALWAYS reserved (4 positions) */
+.red-threes-section {
+  position: relative;
+  width: 136.525px; /* Calculated for 4 positions with 85% overlap */
+  height: 135px;
+  flex-shrink: 0;
+  
+  /* Outer border only when section is empty */
+  border: 1px solid rgba(128, 60, 60, 0.603);
+  border-radius: 8px;
+}
+
+/* Remove outer border when section has cards */
+.red-threes-section:has(.red-three-card) {
+  border: none;
+}
+
+/* Empty red three positions - NO visible borders */
+.red-three-position:empty {
+  /* Borders removed - completely invisible when empty */
+}
+
+.red-three-card {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
