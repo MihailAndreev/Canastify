@@ -30,13 +30,16 @@
   overflow: hidden;
 }
 
-/* Red Threes Container - Fixed positions on the left */
+/* Red Threes Container - ALWAYS FIXED (4 positions reserved) */
 .hand-display .red-threes-section {
   position: relative;
   display: flex;
   align-items: center;
   margin-right: 10px;
   flex-shrink: 0;
+  /* Fixed width: 94.5px + (3 × 94.5px × 0.15) = 94.5 + 42.525 = 137.025px */
+  width: 137.025px;
+  height: 135px;
 }
 
 .hand-display .red-three-slot {
@@ -44,6 +47,9 @@
   width: 94.5px;
   height: 135px;
   flex-shrink: 0;
+  /* Visual indicator for empty slots (optional) */
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
 .hand-display .red-three-slot:not(:last-child) {
@@ -56,6 +62,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  border: none; /* Remove border when card is present */
 }
 
 /* Gap between red threes and hand cards (10% of card width) */

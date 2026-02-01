@@ -175,36 +175,40 @@ export function createHandDisplay(cards, options = {}) {
     }
   }
   
-  // Create red threes section
-  if (redThrees.length > 0) {
-    const redThreesSection = document.createElement('div');
-    redThreesSection.className = 'red-threes-section';
+  // Create red threes section (ALWAYS - even if empty)
+  const redThreesSection = document.createElement('div');
+  redThreesSection.className = 'red-threes-section';
+  
+  // Create 4 fixed slots for red threes
+  for (let i = 0; i < 4; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'red-three-slot';
     
-    redThrees.forEach((card) => {
-      const slot = document.createElement('div');
-      slot.className = 'red-three-slot';
-      
-      const cardEl = createCardElement(card, {
+    // Add card if available
+    if (i < redThrees.length) {
+      const cardEl = createCardElement(redThrees[i], {
         className: 'red-three-card',
         onClick: (e) => {
           if (options.onCardClick) {
-            const cardIndex = validCards.indexOf(card);
-            options.onCardClick(card, cardIndex, e);
+            const cardIndex = validCards.indexOf(redThrees[i]);
+            options.onCardClick(redThrees[i], cardIndex, e);
           }
         }
       });
       
       slot.appendChild(cardEl);
-      redThreesSection.appendChild(slot);
-    });
+    }
+    // Slot remains empty if no card available
     
-    container.appendChild(redThreesSection);
-    
-    // Add separator
-    const separator = document.createElement('div');
-    separator.className = 'hand-cards-separator';
-    container.appendChild(separator);
+    redThreesSection.appendChild(slot);
   }
+  
+  container.appendChild(redThreesSection);
+  
+  // Add separator (always present)
+  const separator = document.createElement('div');
+  separator.className = 'hand-cards-separator';
+  container.appendChild(separator);
   
   // Create hand cards wrapper
   const handWrapper = document.createElement('div');
