@@ -612,6 +612,59 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   padding: var(--spacing-md);
   margin-top: auto;
   height: auto;
+  position: relative;
+}
+
+/* Hand Counters Section */
+.hand-counters-container {
+  position: absolute;
+  right: var(--spacing-lg);
+  bottom: var(--spacing-lg);
+  width: 136.525px;
+  height: 135px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  z-index: 5;
+  flex-shrink: 0;
+}
+
+.hand-counter-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.counter-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.hand-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-round);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19.5px;
+  font-weight: 700;
+  color: var(--color-card-white);
+  box-shadow: var(--shadow-md);
+}
+
+.hand-badge.blue-badge {
+  background: var(--color-blue-badge);
+}
+
+.hand-badge.red-badge {
+  background: var(--color-red-badge);
 }
 
 /* Cardmeister Playing Cards */

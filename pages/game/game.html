@@ -155,6 +155,18 @@
     <!-- Bottom: Player's Hand -->
     <div class="hand team-our" id="player-hand">
       <!-- Vector Cards will be loaded here -->
+      
+      <!-- Hand Counters Section -->
+      <div class="hand-counters-container">
+        <div class="hand-counter-item">
+          <div class="hand-badge blue-badge" id="hand-card-count">0</div>
+          <div class="counter-label">CARDS</div>
+        </div>
+        <div class="hand-counter-item">
+          <div class="hand-badge red-badge" id="hand-red3-count">0</div>
+          <div class="counter-label">RED 3s</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -385,7 +397,7 @@
     handCards.push(createCard(SUITS.DIAMOND, 3));   // Red Three 4
     
     // Add 70 regular cards (mixed ranks and suits)
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 18; i++) {
       const suits = [SUITS.HEART, SUITS.DIAMOND, SUITS.CLUB, SUITS.SPADE];
       const rank = (i % 13) + 1;  // Cycle through ranks 1-13
       const suit = suits[i % 4];   // Cycle through suits
@@ -403,6 +415,16 @@
     // Use all 74 cards (4 red threes + 70 regular)
     const testHand = handCards.slice(0, 74);
 
+    // Calculate hand statistics
+    const redThreesCount = testHand.filter(card => 
+      card.rank === 3 && (card.suit === SUITS.HEART || card.suit === SUITS.DIAMOND)
+    ).length;
+    const totalCards = testHand.length - redThreesCount; // Exclude red threes from card count
+
+    // Update counter displays
+    document.getElementById('hand-card-count').textContent = totalCards;
+    document.getElementById('hand-red3-count').textContent = redThreesCount;
+
     // Create hand display with click handlers
     const handDisplay = createHandDisplay(testHand, {
       width: '94.5px',
@@ -415,6 +437,7 @@
 
     document.getElementById('player-hand').appendChild(handDisplay);
     console.log('Player hand loaded with cards:', testHand);
+    console.log(`Hand stats: ${totalCards} cards, ${redThreesCount} red threes`);
   </script>
 </body>
 </html>
