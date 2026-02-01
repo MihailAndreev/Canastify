@@ -11,6 +11,7 @@
 'use strict';
 
 import { startMyTurn, playerTurnState, TURN_PHASES } from '../../src/player/playerTurn.js';
+import { initPlayerUI } from '../../src/player/playerUI.js';
 
 console.log('[game] game.js loaded');
 
@@ -21,4 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   startMyTurn();
   playerTurnState.phase = TURN_PHASES.BEFORE_DRAW;
   console.log('[player]', playerTurnState);
+  
+  // Initialize player UI (buttons, etc)
+  initPlayerUI();
 });
