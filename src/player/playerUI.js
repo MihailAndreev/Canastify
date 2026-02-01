@@ -3,8 +3,12 @@
  * Handles DOM initialization and updates for player interface
  */
 
-import { playerTurnState, canDrawFromDeck, canTakeDiscardPile, canMeld } from '../player/playerTurn.js';
+import { playerTurnState, canDrawFromDeck, canTakeDiscardPile, canMeld, canDiscard } from '../player/playerTurn.js';
 import { actionDrawFromDeck, actionTakeDiscardPile } from './playerActions.js';
+import { toggleSelected, playerHandState, getSelectedCount } from './playerHand.js';
+
+// Module-scoped variable to store current buttons for UI refresh
+let currentButtons = null;
 
 /**
  * Apply turn UI logic to buttons
@@ -14,7 +18,7 @@ function applyTurnUI({btnDrawDeck, btnTakeDiscard, btnMeld, btnDiscard}) {
   btnDrawDeck.disabled = !(playerTurnState.isMyTurn && canDrawFromDeck());
   btnTakeDiscard.disabled = !(playerTurnState.isMyTurn && canTakeDiscardPile());
   btnMeld.disabled = !(playerTurnState.isMyTurn && canMeld());
-  btnDiscard.disabled = true;  // keep disabled for now (will be conditional after selection)
+  btnDiscard.disabled = !(playerTurnState.isMyTurn && canDiscard(getSelectedCount()));
 
   console.log('[player-ui]', 'phase=', playerTurnState.phase, 'buttons updated');
 }
@@ -46,6 +50,9 @@ export function initPlayerUI() {
     return;
   }
 
+  // Store buttons in module-scoped variable for refresh
+  currentButtons = buttons;
+
   // Initial UI application
   refreshUI(buttons);
 
@@ -61,4 +68,33 @@ export function initPlayerUI() {
     const result = actionTakeDiscardPile();
     refreshUI(buttons);
   });
+
+  // Attach event delegation for card selection in player's hand
+  const playerHandContainer = document.getElementById('player-hand');
+  if (playerHandContainer) {
+    playerHandContainer.addEventListener('click', (event) => {
+      // Find the closest element with data-card-id attribute
+      const cardElement = event.target.closest('[data-card-id]');
+      
+      if (cardElement) {
+        const cardId = cardElement.dataset.cardId;
+        
+        // Toggle selection in state
+        toggleSelected(cardId);
+        
+        // Toggle CSS class on the card element
+        cardElement.classList.toggle('card-selected');
+        
+        // Log current selection count
+        console.log('[hand]', 'selected=', playerHandState.selectedIds.size);
+        
+        // Refresh UI so Discard button toggles correctly
+        if (currentButtons) {
+          refreshUI(currentButtons);
+        }
+      }
+    });
+  } else {
+    console.warn('Player hand container (#player-hand) not found');
+  }
 }

@@ -802,6 +802,17 @@ playing-card img {
   }
 }
 
+/* ========================================
+   Selected Card Styling
+   ======================================== */
+.card-selected {
+  outline: 3px solid rgba(80, 255, 120, 0.9);
+  outline-offset: -3px;
+  transform: translateY(-6px);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
 @media (max-width: 1200px) {
   .middle-area {
     gap: var(--spacing-md);

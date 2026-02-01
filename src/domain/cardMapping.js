@@ -61,14 +61,31 @@ export function getCardSvgPath(suit, rank) {
   return `${BASE_PATH}/${fileName}`;
 }
 
+// Counter for unique card instances
+let cardIdCounter = 0;
+
+/**
+ * Generate unique card ID (e.g., "As_1", "Kh_2", "J1_3")
+ * @param {string} suit
+ * @param {number} rank
+ * @returns {string}
+ */
+function generateCardId(suit, rank) {
+  cardIdCounter += 1;
+  const suitCode = suit === JOKER ? 'J' : suit[0]; // H, D, C, S, or J
+  const rankCode = suit === JOKER ? rank : (rank === 1 ? 'A' : (rank === 11 ? 'J' : (rank === 12 ? 'Q' : (rank === 13 ? 'K' : rank))));
+  return `${rankCode}${suitCode.toLowerCase()}_${cardIdCounter}`;
+}
+
 /**
  * Create card object from suit and rank
  * @param {string} suit
  * @param {number} rank
- * @returns {object} - Card object with suit, rank, and svgPath
+ * @returns {object} - Card object with suit, rank, svgPath, and unique id
  */
 export function createCard(suit, rank) {
   return {
+    id: generateCardId(suit, rank),
     suit,
     rank,
     svgPath: getCardSvgPath(suit, rank),

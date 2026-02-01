@@ -42,3 +42,11 @@ export function clearSelection() {
 export function getSelectedIds() {
   return Array.from(playerHandState.selectedIds);
 }
+
+/**
+ * Get count of selected cards
+ * @returns {number} Number of selected cards
+ */
+export function getSelectedCount() {
+  return playerHandState.selectedIds.size;
+}
