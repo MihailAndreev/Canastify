@@ -424,6 +424,12 @@ playing-card[rank="joker"][suit="diamonds"]::after {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
+.meld-slot.drop-target-active {
+  background: rgba(255, 215, 0, 0.2);
+  border: 2px solid rgba(255, 215, 0, 0.8);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+}
+
 .slot-label {
   font-size: 11px;
   color: var(--color-text-muted);

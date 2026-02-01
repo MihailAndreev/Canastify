@@ -105,6 +105,29 @@ export function initPlayerUI() {
         refreshUI(currentButtons);
       }
     });
+
+    // Clear selection when cards are dropped to meld
+    playerHandContainer.addEventListener('hand:meld-drop', (event) => {
+      const droppedIds = event.detail.cardIds || [];
+      
+      // Remove dropped card IDs from selection state
+      droppedIds.forEach((cardId) => {
+        if (playerHandState.selectedIds.has(cardId)) {
+          playerHandState.selectedIds.delete(cardId);
+        }
+      });
+
+      // Remove selection class from any remaining selected cards in DOM
+      playerHandContainer.querySelectorAll('.card-selected').forEach((el) => {
+        if (droppedIds.includes(el.dataset.cardId)) {
+          el.classList.remove('card-selected');
+        }
+      });
+
+      if (currentButtons) {
+        refreshUI(currentButtons);
+      }
+    });
   } else {
     console.warn('Player hand container (#player-hand) not found');
   }

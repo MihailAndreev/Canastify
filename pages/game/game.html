@@ -181,6 +181,7 @@
   <script type="module">
     import { createCard, JOKER, SUITS } from '../../src/domain/cardMapping.js';
     import { createHandDisplay } from '../../src/shared/ui/cardDisplay.js';
+    import { canAddToMeld } from '../../src/domain/meldValidation.js';
 
     // Populate Meld Slot 1 with 5 cards (Aces)
     const meldSlot1Cards = [
@@ -445,6 +446,114 @@
     document.getElementById('player-hand').appendChild(handDisplay);
     console.log('Player hand loaded with cards:', testHand);
     console.log(`Hand stats: ${totalCards} cards, ${redThreesCount} red threes`);
+
+    // Setup meld slot drop zones
+    function setupMeldDropZone(meldSlot, meldCards) {
+      meldSlot.classList.add('meld-drop-zone');
+
+      meldSlot.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+        meldSlot.classList.add('drop-target-active');
+      });
+
+      meldSlot.addEventListener('dragleave', (event) => {
+        if (!meldSlot.contains(event.relatedTarget)) {
+          meldSlot.classList.remove('drop-target-active');
+        }
+      });
+
+      meldSlot.addEventListener('drop', (event) => {
+        event.preventDefault();
+        meldSlot.classList.remove('drop-target-active');
+
+        const cardIds = event.dataTransfer.getData('text/plain');
+        if (!cardIds) return;
+
+        // Find cards in hand by ID
+        const handContainer = document.querySelector('.hand-display');
+        if (!handContainer) return;
+
+        const draggedCards = [];
+        const cardIdsArray = cardIds.split(',');
+        const cardElementsToRemove = [];
+        
+        cardIdsArray.forEach((cardId) => {
+          const cardEl = handContainer.querySelector(`[data-card-id="${cardId}"]`);
+          if (cardEl) {
+            // Find card data from testHand
+            const cardIndex = testHand.findIndex((c) => c.id === cardId);
+            if (cardIndex !== -1) {
+              const card = testHand[cardIndex];
+              draggedCards.push(card);
+              cardElementsToRemove.push({ cardEl, cardIndex });
+            }
+          }
+        });
+
+        if (draggedCards.length > 0) {
+          // Validate meld
+          const validation = canAddToMeld(meldCards, draggedCards);
+          
+          if (!validation.valid) {
+            alert(`Invalid meld: ${validation.reason}`);
+            return;
+          }
+
+          // Valid - proceed with drop
+          // Remove cards from testHand (reverse order to maintain indices)
+          cardElementsToRemove.sort((a, b) => b.cardIndex - a.cardIndex).forEach(({cardEl, cardIndex}) => {
+            testHand.splice(cardIndex, 1);
+            cardEl.remove();
+          });
+          
+          // Add cards to meld
+          meldCards.push(...draggedCards);
+          
+          // Ensure meld-cards container exists
+          let meldCardsContainer = meldSlot.querySelector('.meld-cards');
+          if (!meldCardsContainer) {
+            meldCardsContainer = document.createElement('div');
+            meldCardsContainer.className = 'meld-cards';
+            meldSlot.innerHTML = '';
+            meldSlot.appendChild(meldCardsContainer);
+          }
+          
+          // Repopulate meld slot with proper sizing
+          populateMeldSlot(meldCardsContainer, meldCards);
+          console.log(`Dropped ${draggedCards.length} card(s) to meld slot`, draggedCards);
+
+          // Update hand counters
+          const currentCount = parseInt(document.getElementById('hand-card-count').textContent);
+          document.getElementById('hand-card-count').textContent = currentCount - draggedCards.length;
+          
+          // Dispatch event to clear selection state
+          handContainer.dispatchEvent(new CustomEvent('hand:meld-drop', {
+            bubbles: true,
+            detail: { cardIds: cardIdsArray }
+          }));
+        }
+      });
+    }
+
+    // Create a map to store meld cards for each slot
+    const meldSlotsData = new Map();
+    meldSlotsData.set('meld-slot-1', meldSlot1Cards);
+    meldSlotsData.set('meld-slot-2', meldSlot2Cards);
+    
+    // Setup drop zones for our team meld slots
+    document.querySelectorAll('.meld-panel.team-our .meld-slot').forEach((meldSlot) => {
+      const slotId = meldSlot.id;
+      let meldCards = meldSlotsData.get(slotId);
+      
+      // Create empty array for slots without predefined cards
+      if (!meldCards) {
+        meldCards = [];
+        meldSlotsData.set(slotId, meldCards);
+      }
+      
+      setupMeldDropZone(meldSlot, meldCards);
+    });
   </script>
   <script type="module" src="./game.js"></script>
 </body>

@@ -336,8 +336,17 @@ export function createHandDisplay(cards, options = {}) {
       cardEl.classList.add('is-dragging');
       dragSourceRow = cardEl.closest('.hand-row');
 
-      if (cardEl.classList.contains('card-selected') && dragSourceRow) {
-        draggedCardEls = Array.from(dragSourceRow.querySelectorAll('.hand-card.card-selected'));
+      // If dragged card is selected, collect ALL selected cards from BOTH rows
+      if (cardEl.classList.contains('card-selected')) {
+        const allRows = container.querySelectorAll('.hand-row');
+        const selectedCards = [];
+        
+        allRows.forEach((row) => {
+          const rowSelected = Array.from(row.querySelectorAll('.hand-card.card-selected'));
+          selectedCards.push(...rowSelected);
+        });
+        
+        draggedCardEls = selectedCards;
       } else {
         draggedCardEls = [cardEl];
       }
@@ -345,11 +354,20 @@ export function createHandDisplay(cards, options = {}) {
       draggedCardEls.forEach((el) => el.classList.add('is-dragging'));
 
       event.dataTransfer.effectAllowed = 'move';
-      if (cardEl.dataset.cardId) {
-        event.dataTransfer.setData('text/plain', cardEl.dataset.cardId);
+      
+      // Collect all card IDs being dragged
+      const cardIds = draggedCardEls
+        .map((el) => el.dataset.cardId)
+        .filter(Boolean);
+      
+      if (cardIds.length > 0) {
+        event.dataTransfer.setData('text/plain', cardIds.join(','));
       } else {
         event.dataTransfer.setData('text/plain', 'hand-card');
       }
+      
+      // Log for debugging
+      console.log(`[drag] Started dragging ${draggedCardEls.length} card(s)`);
     });
 
     cardEl.addEventListener('dragend', () => {

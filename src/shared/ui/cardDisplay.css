@@ -82,8 +82,13 @@
 
 /* Drag feedback for hand cards */
 .hand-display .hand-row .card-img.is-dragging {
-  opacity: 0.6;
+  opacity: 0.4;
   cursor: grabbing;
+}
+
+.hand-display .hand-row .card-img.card-selected {
+  outline: 3px solid rgba(255, 215, 0, 0.9);
+  outline-offset: 2px;
 }
 
 .hand-display .hand-row .hand-drop-indicator {
