@@ -191,6 +191,7 @@
       createCard(SUITS.CLUB, 9)
     ];
 
+
     // Get meld slot containers
     const meldSlot1Container = document.getElementById('meld-slot-1').querySelector('.meld-cards');
     const meldSlot2Container = document.getElementById('meld-slot-2').querySelector('.meld-cards');
@@ -374,47 +375,33 @@
     resizeObserver.observe(meldSlot2Container.parentElement);
     resizeObserver.observe(opponentMeldSlot2Container.parentElement);
 
-    // Create a test hand with mixed suits and a joker
-    const handCards = [
-      createCard(SUITS.SPADE, 1),   // Ace of Spades
-      createCard(SUITS.HEART, 2),   // 2 of Hearts
-      createCard(SUITS.HEART, 3),   // 3 of Hearts
-      createCard(SUITS.HEART, 4),   // 4 of Hearts
-      createCard(SUITS.HEART, 5),   // 5 of Hearts
-      createCard(SUITS.HEART, 6),   // 6 of Hearts
-      createCard(SUITS.HEART, 7),   // 7 of Hearts
-      createCard(SUITS.HEART, 8),   // 8 of Hearts
-      createCard(SUITS.HEART, 9),   // 9 of Hearts
-      createCard(SUITS.HEART, 11),  // Jack of Hearts
-      createCard(SUITS.HEART, 12),  // Queen of Hearts
-      createCard(SUITS.HEART, 13),  // King of Hearts
-      createCard(JOKER, 1),         // Joker
-      // 10 more cards
-      createCard(SUITS.DIAMOND, 1), // Ace of Diamonds
-      createCard(SUITS.DIAMOND, 10),// 10 of Diamonds
-      createCard(SUITS.CLUB, 1),    // Ace of Clubs
-      createCard(SUITS.CLUB, 5),    // 5 of Clubs
-      createCard(SUITS.SPADE, 9),   // 9 of Spades
-      createCard(SUITS.SPADE, 10),  // 10 of Spades
-      createCard(SUITS.DIAMOND, 11),// Jack of Diamonds
-      createCard(SUITS.DIAMOND, 12),// Queen of Diamonds
-      createCard(SUITS.CLUB, 13),   // King of Clubs
-      createCard(JOKER, 2),         // Joker 2
-      createCard(SUITS.DIAMOND, 1), // Ace of Diamonds
-      createCard(SUITS.DIAMOND, 10),// 10 of Diamonds
-      createCard(SUITS.CLUB, 1),    // Ace of Clubs
-      createCard(SUITS.CLUB, 5),    // 5 of Clubs
-      createCard(SUITS.SPADE, 9),   // 9 of Spades
-      createCard(SUITS.SPADE, 10),  // 10 of Spades
-      createCard(SUITS.DIAMOND, 11),// Jack of Diamonds
-      createCard(SUITS.DIAMOND, 12),// Queen of Diamonds
-      createCard(SUITS.CLUB, 13),   // King of Clubs
-      createCard(JOKER, 2)          // Joker 2
+    // Create a test hand with 4 red threes + 70 regular cards (35 per row)
+    const handCards = [];
+    
+    // Add 4 red threes first (these will be positioned on the left)
+    // handCards.push(createCard(SUITS.HEART, 3));     // Red Three 1
+    // handCards.push(createCard(SUITS.DIAMOND, 3));   // Red Three 2
+    // handCards.push(createCard(SUITS.HEART, 3));     // Red Three 3
+    // handCards.push(createCard(SUITS.DIAMOND, 3));   // Red Three 4
+    
+    // Add 70 regular cards (mixed ranks and suits)
+    for (let i = 0; i < 37; i++) {
+      const suits = [SUITS.HEART, SUITS.DIAMOND, SUITS.CLUB, SUITS.SPADE];
+      const rank = (i % 13) + 1;  // Cycle through ranks 1-13
+      const suit = suits[i % 4];   // Cycle through suits
       
-    ];
+      // Skip rank 3 for non-red suits to avoid confusion
+      if (rank === 3 && suit !== SUITS.HEART && suit !== SUITS.DIAMOND) {
+        handCards.push(createCard(suit, 2)); // Use rank 2 instead
+      } else if (rank === 3) {
+        handCards.push(createCard(suit, 4)); // Use rank 4 instead
+      } else {
+        handCards.push(createCard(suit, rank));
+      }
+    }
 
-    // Limit hand to 30 cards
-    const testHand = handCards.slice(0, 30);
+    // Use all 74 cards (4 red threes + 70 regular)
+    const testHand = handCards.slice(0, 74);
 
     // Create hand display with click handlers
     const handDisplay = createHandDisplay(testHand, {

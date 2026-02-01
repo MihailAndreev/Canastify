@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Hand Display - Canastify</title>
+  <link rel="stylesheet" href="./src/shared/ui/cardDisplay.css">
+  <link rel="stylesheet" href="./styles/main.css">
+  <style>
+    body {
+      background: #0d4d34;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .test-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.05);
+      padding: 20px;
+      border-radius: 8px;
+      color: white;
+    }
+    
+    h2 {
+      margin-bottom: 10px;
+    }
+    
+    .test-section {
+      margin-bottom: 30px;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 15px;
+      border-radius: 6px;
+    }
+    
+    .hand-display {
+      border: 2px solid #4CAF50;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>Hand Display Test</h1>
+    
+    <div class="test-section">
+      <h2>Test 1: 10 Cards (No Red Threes)</h2>
+      <div id="test1"></div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Test 2: 15 Cards (With 2 Red Threes)</h2>
+      <div id="test2"></div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Test 3: 30 Cards (With 4 Red Threes)</h2>
+      <div id="test3"></div>
+    </div>
+    
+    <div class="test-section">
+      <h2>Test 4: 50 Cards (With 4 Red Threes)</h2>
+      <div id="test4"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createCard, SUITS, JOKER } from './src/domain/cardMapping.js';
+    import { createHandDisplay } from './src/shared/ui/cardDisplay.js';
+
+    // Helper to create test cards
+    function createTestCards(count, includeRedThrees = false) {
+      const cards = [];
+      
+      if (includeRedThrees) {
+        cards.push(createCard(SUITS.HEART, 3));
+        cards.push(createCard(SUITS.DIAMOND, 3));
+        cards.push(createCard(SUITS.HEART, 3));
+        cards.push(createCard(SUITS.DIAMOND, 3));
+      }
+      
+      // Fill rest with random cards
+      const suits = [SUITS.HEART, SUITS.DIAMOND, SUITS.CLUB, SUITS.SPADE];
+      let currentRank = 1;
+      
+      for (let i = cards.length; i < count; i++) {
+        const suit = suits[i % 4];
+        cards.push(createCard(suit, currentRank));
+        currentRank = (currentRank % 13) + 1;
+      }
+      
+      return cards;
+    }
+
+    // Test 1: 10 cards, no red threes
+    const test1Cards = createTestCards(10, false);
+    const handDisplay1 = createHandDisplay(test1Cards);
+    document.getElementById('test1').appendChild(handDisplay1);
+
+    // Test 2: 15 cards with 2 red threes
+    const test2Cards = createTestCards(15, true);
+    const handDisplay2 = createHandDisplay(test2Cards);
+    document.getElementById('test2').appendChild(handDisplay2);
+
+    // Test 3: 30 cards with 4 red threes
+    const test3Cards = createTestCards(30, true);
+    const handDisplay3 = createHandDisplay(test3Cards);
+    document.getElementById('test3').appendChild(handDisplay3);
+
+    // Test 4: 50 cards with 4 red threes
+    const test4Cards = createTestCards(50, true);
+    const handDisplay4 = createHandDisplay(test4Cards);
+    document.getElementById('test4').appendChild(handDisplay4);
+
+    console.log('Hand Display Tests Loaded');
+    console.log('Test 1 Cards:', test1Cards.length);
+    console.log('Test 2 Cards:', test2Cards.length);
+    console.log('Test 3 Cards:', test3Cards.length);
+    console.log('Test 4 Cards:', test4Cards.length);
+  </script>
+</body>
+</html>
