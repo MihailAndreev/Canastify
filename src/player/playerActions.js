@@ -43,17 +43,20 @@ export function actionTakeDiscardPile() {
  * @returns {Object} { ok: boolean, message?: string }
  */
 export function actionMeldSelected() {
-  if (!canMeld()) {
-    return { ok: false, message: 'Cannot meld in current phase' };
-  }
-
   const selectedIds = getSelectedIds();
+
   if (selectedIds.length === 0) {
     return { ok: false, message: 'No cards selected to meld' };
   }
 
+  if (!canMeld()) {
+    clearSelection();  // Очисти дори при грешка
+    return { ok: false, message: 'Cannot meld in current phase' };
+  }
+
   // TODO: Meld validation and logic
   
+  clearSelection();  // Очисти при успех
   return { ok: true };
 }
 

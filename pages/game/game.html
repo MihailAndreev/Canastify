@@ -181,7 +181,8 @@
   <script type="module">
     import { createCard, JOKER, SUITS } from '../../src/domain/cardMapping.js';
     import { createHandDisplay } from '../../src/shared/ui/cardDisplay.js';
-    import { canAddToMeld } from '../../src/domain/meldValidation.js';
+    import { canAddToMeld, canAddToMeldEnhanced } from '../../src/domain/meldValidation.js';
+    import { inferMeldType, getRunDirection } from '../../src/domain/meldModel.js';
 
     // Populate Meld Slot 1 with 5 cards (Aces)
     const meldSlot1Cards = [
@@ -492,11 +493,28 @@
         });
 
         if (draggedCards.length > 0) {
-          // Validate meld
-          const validation = canAddToMeld(meldCards, draggedCards);
+          // Build meld metadata object for enhanced validation
+          let meld = null;
+          if (meldCards.length > 0) {
+            const meldType = inferMeldType(meldCards);
+            const meldDirection = meldType === 'run' ? getRunDirection(meldCards) : null;
+            meld = {
+              cards: meldCards,
+              type: meldType,
+              direction: meldDirection,
+              isCanasta: meldCards.length >= 7,
+              id: Math.random().toString(36).substr(2, 9),
+              team: 'our' // Default to our team
+            };
+          }
+
+          // Validate meld using enhanced validation with all Phase 2-3 rules
+          const validation = meld 
+            ? canAddToMeldEnhanced(draggedCards, meld)
+            : canAddToMeld(draggedCards, draggedCards); // New meld - validate as standalone
           
           if (!validation.valid) {
-            alert(`Invalid meld: ${validation.reason}`);
+            alert(`Invalid meld: ${validation.details || validation.reason}`);
             return;
           }
 
